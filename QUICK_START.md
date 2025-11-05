@@ -125,6 +125,21 @@ Or override via command line:
 ./run.sh --customer-id 1234567890 --export report.csv
 ```
 
+### List all campaigns
+```bash
+./run.sh --customer-id 1234567890 --list-campaigns
+```
+
+### Analyze specific campaign
+```bash
+./run.sh --customer-id 1234567890 --campaign-id 987654321
+```
+
+### Analyze multiple campaigns
+```bash
+./run.sh --customer-id 1234567890 --campaign-id 987654321 --campaign-id 123456789
+```
+
 ## 📊 Interpreting Results
 
 The script identifies the worst terms based on:

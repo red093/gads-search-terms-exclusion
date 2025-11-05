@@ -212,6 +212,8 @@ python search_terms_analyzer.py \
 
 - `--customer-id`: **(Required)** Google Ads customer ID to analyze (without hyphens)
 - `--login-customer-id`: **(Optional)** MCC manager account ID for authentication (without hyphens). Use when accessing client accounts through a manager account.
+- `--campaign-id`: **(Optional)** Campaign ID to analyze (can be specified multiple times). If not specified, analyzes all campaigns.
+- `--list-campaigns`: List all campaigns in the account and exit
 - `--days`: Number of days to analyze (default: 30)
 - `--top`: Number of worst terms to display (default: 10)
 - `--config`: Path to configuration file (default: google-ads.yaml)
@@ -241,6 +243,28 @@ All examples below use the helper script. If running manually, activate the virt
 ./run.sh --customer-id 1234567890 --login-customer-id 9876543210
 ```
 
+### List all campaigns in the account
+```bash
+./run.sh --customer-id 1234567890 --list-campaigns
+```
+
+This will display all campaigns with their IDs, names, status, and performance metrics.
+
+### Analyze a specific campaign
+```bash
+./run.sh --customer-id 1234567890 --campaign-id 987654321
+```
+
+### Analyze multiple campaigns
+```bash
+./run.sh --customer-id 1234567890 --campaign-id 987654321 --campaign-id 123456789
+```
+
+### Analyze specific campaign with custom date range
+```bash
+./run.sh --customer-id 1234567890 --campaign-id 987654321 --days 14 --top 20
+```
+
 **Note:** On Windows, use `run.bat` instead of `./run.sh`
 
 ## Output
@@ -248,16 +272,19 @@ All examples below use the helper script. If running manually, activate the virt
 The script produces a formatted report with:
 
 ```
-======================================================================================================
-RANK   SEARCH TERM                    CPC        COST       CLICKS   CONV     SCORE
-======================================================================================================
-1      expensive keyword here         $15.50     $465.00    30       0.0      1545.00
-2      another bad term              $12.30     $246.00    20       0.0      1254.30
+==================================================================================================================================
+RANK   SEARCH TERM                    CAMPAIGN                  CPC        COST       CLICKS   CONV     SCORE
+==================================================================================================================================
+1      expensive keyword here         My Campaign Name          $15.50     $465.00    30       0.0      1545.00
+2      another bad term              Another Campaign          $12.30     $246.00    20       0.0      1254.30
 ...
 ```
 
 ### Understanding the Results
 
+- **RANK**: Position in the ranking (1 = worst performing)
+- **SEARCH TERM**: The actual search query that triggered your ad
+- **CAMPAIGN**: The campaign where this search term appeared
 - **CPC**: Average cost per click
 - **COST**: Total cost spent on this term
 - **CLICKS**: Number of clicks received
