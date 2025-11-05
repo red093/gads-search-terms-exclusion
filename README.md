@@ -27,7 +27,7 @@ The easiest way to set up the project is using the provided setup script, which 
 
 **Linux/macOS:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/red093/gads-search-terms-exclusion.git
 cd gads-search-terms-exclusion
 chmod +x setup.sh
 ./setup.sh
@@ -35,7 +35,7 @@ chmod +x setup.sh
 
 **Windows:**
 ```cmd
-git clone <repository-url>
+git clone https://github.com/red093/gads-search-terms-exclusion.git
 cd gads-search-terms-exclusion
 setup.bat
 ```
@@ -52,7 +52,7 @@ If you prefer to set up manually:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/red093/gads-search-terms-exclusion.git
 cd gads-search-terms-exclusion
 ```
 
