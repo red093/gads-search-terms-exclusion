@@ -18,7 +18,8 @@ client_id: YOUR_CLIENT_ID.apps.googleusercontent.com
 client_secret: YOUR_CLIENT_SECRET
 
 # OAuth2 Refresh Token
-# Generate it using: python -m google.ads.googleads.oauth2.generate_refresh_token
+# Generate it using: python generate_refresh_token.py
+# (Make sure to activate the virtual environment first)
 refresh_token: YOUR_REFRESH_TOKEN
 
 # Login Customer ID (without hyphens)

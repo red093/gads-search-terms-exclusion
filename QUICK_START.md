@@ -72,15 +72,23 @@ python search_terms_analyzer.py --customer-id YOUR_CUSTOMER_ID
 
 ### Generate Refresh Token
 
-Run this command with your client_id and client_secret:
+Use the included helper script:
 
 ```bash
-python -m google.ads.googleads.oauth2.generate_refresh_token \
-    --client_id YOUR_CLIENT_ID \
-    --client_secret YOUR_CLIENT_SECRET
+# Activate virtual environment first
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+# Run the token generator
+python generate_refresh_token.py
 ```
 
-Follow the instructions to authorize the app and obtain the refresh_token.
+The script will:
+1. Ask for your Client ID and Client Secret
+2. Open a browser for authorization
+3. Display your refresh token (copy it to google-ads.yaml)
+
+**Alternative:** Use [Google OAuth2 Playground](https://developers.google.com/oauthplayground/) - detailed instructions in README.md
 
 ## 🏢 MCC (Manager Account) Access
 

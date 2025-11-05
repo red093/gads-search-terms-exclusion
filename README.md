@@ -100,18 +100,45 @@ use_proto_plus: True
    - Request a developer token
 
 2. **OAuth2 Credentials** (client_id, client_secret, refresh_token):
+
+   **Step 2a: Create OAuth2 Credentials**
    - Go to [Google Cloud Console](https://console.cloud.google.com/)
    - Create a new project or select an existing one
-   - Enable the Google Ads API
-   - Create OAuth 2.0 credentials
-   - Generate a refresh token using the Google Ads authentication script
+   - Enable the **Google Ads API** (search in API Library)
+   - Go to **Credentials** → **Create Credentials** → **OAuth 2.0 Client ID**
+   - Choose **Desktop app** as application type
+   - Download the credentials (you'll get client_id and client_secret)
 
-To generate the refresh token:
-```bash
-python -m google.ads.googleads.oauth2.generate_refresh_token \
-    --client_id YOUR_CLIENT_ID \
-    --client_secret YOUR_CLIENT_SECRET
-```
+   **Step 2b: Generate Refresh Token**
+
+   Use the included helper script to generate your refresh token:
+
+   ```bash
+   # Make sure virtual environment is activated
+   source venv/bin/activate  # Linux/macOS
+   venv\Scripts\activate     # Windows
+
+   # Run the token generator
+   python generate_refresh_token.py
+   ```
+
+   The script will:
+   - Prompt you for your Client ID and Client Secret
+   - Open a browser window for you to authorize the app
+   - Display your refresh token (save this in google-ads.yaml)
+
+   **Alternative Method** (if the helper script doesn't work):
+
+   Use Google's OAuth2 Playground:
+   1. Go to [OAuth2 Playground](https://developers.google.com/oauthplayground/)
+   2. Click the gear icon (⚙️) in the top right
+   3. Check "Use your own OAuth credentials"
+   4. Enter your Client ID and Client Secret
+   5. In Step 1, scroll down and select "Google Ads API v14" → "https://www.googleapis.com/auth/adwords"
+   6. Click "Authorize APIs"
+   7. Sign in and grant permissions
+   8. Click "Exchange authorization code for tokens"
+   9. Copy the "Refresh token" value
 
 ## MCC (Manager Account) Access
 
