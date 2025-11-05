@@ -1,23 +1,56 @@
 # Quick Start Guide - Google Ads Search Terms Analyzer
 
-## 🚀 Quick Setup (5 minutes)
+## 🚀 Quick Setup (3 minutes)
 
-### 1. Install Dependencies
+### Automated Setup (Recommended)
+
+**Linux/macOS:**
 ```bash
+./setup.sh
+```
+
+**Windows:**
+```cmd
+setup.bat
+```
+
+The setup script will:
+- ✅ Create an isolated virtual environment
+- ✅ Install all dependencies automatically
+- ✅ Check Python version compatibility
+- ✅ Optionally copy the config template
+
+Then configure your credentials:
+```bash
+nano google-ads.yaml  # or use any text editor
+```
+
+And run:
+```bash
+./run.sh --customer-id YOUR_CUSTOMER_ID
+```
+
+### Manual Setup
+
+If you prefer to do it manually:
+
+```bash
+# 1. Create virtual environment
+python3 -m venv venv            # Linux/macOS
+python -m venv venv             # Windows
+
+# 2. Activate it
+source venv/bin/activate        # Linux/macOS
+venv\Scripts\activate           # Windows
+
+# 3. Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Configure Credentials
-
-Copy the example file:
-```bash
+# 4. Configure credentials
 cp google-ads.yaml.example google-ads.yaml
-```
+# Edit google-ads.yaml with your credentials
 
-Edit `google-ads.yaml` with your Google Ads credentials.
-
-### 3. Run the Analysis
-```bash
+# 5. Run the analyzer
 python search_terms_analyzer.py --customer-id YOUR_CUSTOMER_ID
 ```
 
@@ -60,36 +93,36 @@ Example:
 ```bash
 # MCC account: 9876543210
 # Client account: 1234567890
-python search_terms_analyzer.py --customer-id 1234567890
+./run.sh --customer-id 1234567890
 ```
 
 Or override via command line:
 ```bash
-python search_terms_analyzer.py \
-    --customer-id 1234567890 \
-    --login-customer-id 9876543210
+./run.sh --customer-id 1234567890 --login-customer-id 9876543210
 ```
 
 ## 💡 Usage Examples
 
+**Note:** Examples use `./run.sh` (Linux/macOS) or `run.bat` (Windows)
+
 ### Standard analysis (last 30 days)
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890
+./run.sh --customer-id 1234567890
 ```
 
 ### Analyze last 7 days
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890 --days 7
+./run.sh --customer-id 1234567890 --days 7
 ```
 
 ### Show top 20 worst terms
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890 --top 20
+./run.sh --customer-id 1234567890 --top 20
 ```
 
 ### Export to CSV
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890 --export report.csv
+./run.sh --customer-id 1234567890 --export report.csv
 ```
 
 ## 📊 Interpreting Results

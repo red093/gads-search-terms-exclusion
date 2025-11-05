@@ -21,18 +21,66 @@ Python script to analyze search terms from a Google Ads account and identify the
 
 ## Installation
 
+### Quick Setup (Recommended)
+
+The easiest way to set up the project is using the provided setup script, which automatically creates a virtual environment and installs all dependencies:
+
+**Linux/macOS:**
+```bash
+git clone <repository-url>
+cd gads-search-terms-exclusion
+chmod +x setup.sh
+./setup.sh
+```
+
+**Windows:**
+```cmd
+git clone <repository-url>
+cd gads-search-terms-exclusion
+setup.bat
+```
+
+The setup script will:
+- ✅ Check Python version (3.7+ required)
+- ✅ Create a virtual environment (isolates dependencies)
+- ✅ Install all required packages
+- ✅ Optionally copy the config template
+
+### Manual Installation
+
+If you prefer to set up manually:
+
 1. Clone the repository:
 ```bash
 git clone <repository-url>
 cd gads-search-terms-exclusion
 ```
 
-2. Install dependencies:
+2. Create and activate a virtual environment:
+```bash
+# Linux/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Configure Google Ads API credentials:
+### Why Use a Virtual Environment?
+
+A virtual environment:
+- 🔒 Isolates project dependencies from system Python
+- ✅ Prevents version conflicts with other projects
+- 📦 Makes the project reproducible across different machines
+- 🧹 Keeps your system Python clean
+
+### Configure Google Ads API Credentials
 
 Create a `google-ads.yaml` file in the project directory with your credentials:
 
@@ -115,10 +163,38 @@ To use MCC access, ensure:
 
 ## Usage
 
-### Basic Command
+### Running the Analyzer
 
+#### Option 1: Using the Helper Script (Easiest)
+
+The helper script automatically activates the virtual environment and runs the analyzer:
+
+**Linux/macOS:**
 ```bash
+./run.sh --customer-id YOUR_CUSTOMER_ID
+```
+
+**Windows:**
+```cmd
+run.bat --customer-id YOUR_CUSTOMER_ID
+```
+
+#### Option 2: Manual Execution
+
+Activate the virtual environment first, then run the script:
+
+**Linux/macOS:**
+```bash
+source venv/bin/activate
 python search_terms_analyzer.py --customer-id YOUR_CUSTOMER_ID
+deactivate  # When done
+```
+
+**Windows:**
+```cmd
+venv\Scripts\activate
+python search_terms_analyzer.py --customer-id YOUR_CUSTOMER_ID
+deactivate  # When done
 ```
 
 ### Advanced Options
@@ -143,27 +219,29 @@ python search_terms_analyzer.py \
 
 ## Examples
 
+All examples below use the helper script. If running manually, activate the virtual environment first.
+
 ### Analyze last 30 days (default)
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890
+./run.sh --customer-id 1234567890
 ```
 
 ### Analyze last 7 days and show top 20
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890 --days 7 --top 20
+./run.sh --customer-id 1234567890 --days 7 --top 20
 ```
 
 ### Export results to CSV
 ```bash
-python search_terms_analyzer.py --customer-id 1234567890 --export report.csv
+./run.sh --customer-id 1234567890 --export report.csv
 ```
 
 ### Access client account via MCC (Manager account)
 ```bash
-python search_terms_analyzer.py \
-    --customer-id 1234567890 \
-    --login-customer-id 9876543210
+./run.sh --customer-id 1234567890 --login-customer-id 9876543210
 ```
+
+**Note:** On Windows, use `run.bat` instead of `./run.sh`
 
 ## Output
 
