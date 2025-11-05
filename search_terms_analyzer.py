@@ -4,11 +4,13 @@ Google Ads Search Terms Analyzer
 Analyzes search terms and identifies the worst performing ones based on:
 - Highest CPC (Cost Per Click)
 - Lowest conversions
+
+Supports both direct account access and MCC (Manager) account access.
 """
 
 import argparse
 import sys
-from typing import List, Dict
+from typing import List, Dict, Optional
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.errors import GoogleAdsException
 import yaml
@@ -17,15 +19,24 @@ import yaml
 class SearchTermsAnalyzer:
     """Analyzes Google Ads search terms to identify poor performers."""
 
-    def __init__(self, config_path: str, customer_id: str):
+    def __init__(self, config_path: str, customer_id: str, login_customer_id: Optional[str] = None):
         """
         Initialize the analyzer.
 
         Args:
             config_path: Path to google-ads.yaml configuration file
-            customer_id: Google Ads customer ID (without hyphens)
+            customer_id: Google Ads customer ID to analyze (without hyphens)
+            login_customer_id: Optional MCC account ID for authentication (without hyphens).
+                              If not provided, uses the value from config file.
         """
+        # Load client configuration
         self.client = GoogleAdsClient.load_from_storage(config_path)
+
+        # Override login_customer_id if provided via command line
+        if login_customer_id:
+            self.client.login_customer_id = login_customer_id
+            print(f"Using MCC account {login_customer_id} to access customer {customer_id}")
+
         self.customer_id = customer_id
 
     def fetch_search_terms(self, days: int = 30) -> List[Dict]:
@@ -231,7 +242,8 @@ class SearchTermsAnalyzer:
 def main():
     """Main entry point for the script."""
     parser = argparse.ArgumentParser(
-        description='Analyze Google Ads search terms to find worst performers'
+        description='Analyze Google Ads search terms to find worst performers',
+        epilog='For MCC (Manager) account access, specify --login-customer-id with your MCC account ID'
     )
     parser.add_argument(
         '--config',
@@ -243,7 +255,14 @@ def main():
         '--customer-id',
         type=str,
         required=True,
-        help='Google Ads customer ID (without hyphens, e.g., 1234567890)'
+        help='Google Ads customer ID to analyze (without hyphens, e.g., 1234567890)'
+    )
+    parser.add_argument(
+        '--login-customer-id',
+        type=str,
+        help='MCC (Manager) account ID for authentication (without hyphens). '
+             'Use this when accessing client accounts through a manager account. '
+             'If not provided, uses the login_customer_id from config file.'
     )
     parser.add_argument(
         '--days',
@@ -271,9 +290,17 @@ def main():
         print("Error: Customer ID must contain only digits")
         sys.exit(1)
 
+    # Validate login customer ID format if provided
+    login_customer_id = None
+    if args.login_customer_id:
+        login_customer_id = args.login_customer_id.replace('-', '')
+        if not login_customer_id.isdigit():
+            print("Error: Login Customer ID must contain only digits")
+            sys.exit(1)
+
     try:
         # Initialize analyzer
-        analyzer = SearchTermsAnalyzer(args.config, customer_id)
+        analyzer = SearchTermsAnalyzer(args.config, customer_id, login_customer_id)
 
         # Get worst performing terms
         worst_terms = analyzer.get_worst_terms(days=args.days, top_n=args.top)

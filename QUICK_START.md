@@ -49,6 +49,27 @@ python -m google.ads.googleads.oauth2.generate_refresh_token \
 
 Follow the instructions to authorize the app and obtain the refresh_token.
 
+## 🏢 MCC (Manager Account) Access
+
+If you're an agency or manage multiple accounts through a Google Ads Manager (MCC) account:
+
+1. Set `login_customer_id` in `google-ads.yaml` to your **MCC account ID**
+2. Use `--customer-id` with the **client account ID** you want to analyze
+
+Example:
+```bash
+# MCC account: 9876543210
+# Client account: 1234567890
+python search_terms_analyzer.py --customer-id 1234567890
+```
+
+Or override via command line:
+```bash
+python search_terms_analyzer.py \
+    --customer-id 1234567890 \
+    --login-customer-id 9876543210
+```
+
 ## 💡 Usage Examples
 
 ### Standard analysis (last 30 days)

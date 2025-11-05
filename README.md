@@ -65,6 +65,54 @@ python -m google.ads.googleads.oauth2.generate_refresh_token \
     --client_secret YOUR_CLIENT_SECRET
 ```
 
+## MCC (Manager Account) Access
+
+The script supports accessing client accounts through a Google Ads Manager (MCC) account. This is useful for agencies or businesses managing multiple Google Ads accounts.
+
+### Configuration for MCC Access
+
+There are two ways to configure MCC access:
+
+#### Option 1: Using Configuration File
+
+Set the `login_customer_id` in your `google-ads.yaml` to your MCC account ID:
+
+```yaml
+login_customer_id: 9876543210  # Your MCC account ID
+```
+
+Then run the script with the client account ID:
+
+```bash
+python search_terms_analyzer.py --customer-id 1234567890
+```
+
+Where:
+- `login_customer_id` (in config) = Your MCC manager account ID
+- `--customer-id` (command line) = The client account ID you want to analyze
+
+#### Option 2: Using Command Line Parameter
+
+Override the config file by specifying the MCC account on the command line:
+
+```bash
+python search_terms_analyzer.py \
+    --customer-id 1234567890 \
+    --login-customer-id 9876543210
+```
+
+This is useful if you:
+- Want to use different MCC accounts without editing the config
+- Need to quickly switch between manager accounts
+- Share the same config file across different scenarios
+
+### MCC Access Requirements
+
+To use MCC access, ensure:
+1. Your MCC account has access to the client account
+2. The developer token is from the MCC account (or a test account linked to it)
+3. The OAuth credentials have been granted permission for the MCC account
+
 ## Usage
 
 ### Basic Command
@@ -86,7 +134,8 @@ python search_terms_analyzer.py \
 
 ### Parameters
 
-- `--customer-id`: **(Required)** Google Ads customer ID (without hyphens)
+- `--customer-id`: **(Required)** Google Ads customer ID to analyze (without hyphens)
+- `--login-customer-id`: **(Optional)** MCC manager account ID for authentication (without hyphens). Use when accessing client accounts through a manager account.
 - `--days`: Number of days to analyze (default: 30)
 - `--top`: Number of worst terms to display (default: 10)
 - `--config`: Path to configuration file (default: google-ads.yaml)
@@ -107,6 +156,13 @@ python search_terms_analyzer.py --customer-id 1234567890 --days 7 --top 20
 ### Export results to CSV
 ```bash
 python search_terms_analyzer.py --customer-id 1234567890 --export report.csv
+```
+
+### Access client account via MCC (Manager account)
+```bash
+python search_terms_analyzer.py \
+    --customer-id 1234567890 \
+    --login-customer-id 9876543210
 ```
 
 ## Output

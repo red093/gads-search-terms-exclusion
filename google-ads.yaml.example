@@ -22,8 +22,20 @@ client_secret: YOUR_CLIENT_SECRET
 refresh_token: YOUR_REFRESH_TOKEN
 
 # Login Customer ID (without hyphens)
-# This is typically your Google Ads Manager account ID
+# ==========================================
+# SCENARIO 1: Direct Account Access
+# If you're accessing your own Google Ads account directly, use your account ID
 # Example: 1234567890
+#
+# SCENARIO 2: MCC (Manager) Account Access
+# If you're an agency or have a Google Ads Manager (MCC) account managing multiple
+# client accounts, use your MCC account ID here.
+# Example: 9876543210 (your MCC account)
+#
+# Then when running the script, use --customer-id with the client account ID:
+# python search_terms_analyzer.py --customer-id 1234567890
+#
+# NOTE: You can also override this value via command line using --login-customer-id
 login_customer_id: YOUR_LOGIN_CUSTOMER_ID
 
 # Use proto-plus (recommended)
